@@ -1,0 +1,43 @@
+{
+    "dfx" : {
+        "code" : {
+            "path" : "/Users/surr/d/p/dfx",
+            "git"  : {
+                "branch" : "app-binding"
+            }
+        },
+        "dev" : {
+            "lock" : {
+                "path" : "/Users/surr/d/p/_dfx/run_dev.lock"
+            },
+            "run" : {
+                "path" : "/Users/surr/d/p/_dfx/run_dev.js"
+            }
+        },
+        "dep" : {
+            "lock" : {
+                "path" : "/Users/surr/d/p/_dfx/run_dep.lock"
+            },
+            "run" : {
+                "path" : "/Users/surr/d/p/_dfx/run_dep.js"
+            }
+        }
+    },
+    "dfc" : {
+        "code" : {
+            "path" : "/Users/surr/d/p/dfc",
+            "git"  : {
+                "branch" : "master"
+            }
+        },
+        "lock" : {
+            "path" : "/Users/surr/d/p/_dfx/run_dfc.lock"
+        },
+        "run" : {
+            "path" : "/Users/surr/d/p/_dfx/run_dfc.js"
+        }
+    },
+    "logs" : {
+        "path" : "/Users/surr/d/p/_dfx/logs"
+    }
+}

@@ -1,0 +1,42 @@
+
+    SINOPSYS
+
+            dreamface update [dfx] [dfc]
+
+            dreamface restart [ ( [dev] [dep] ) | dfx ] [dfc]
+
+    DESCRIPTION
+            Updates and/or restarts dreamface compiler, deployment and development servers.
+            dfx is common name for both dev and dep servers.
+            dfc is compiler.
+            dev and dep can not be updated separately, only together.
+            dfc will be restarted if dev is restarted
+
+            It looks for config file at either:
+                
+                /usr/local/etc/dfm.config.json
+                ~/.dfm/dfm.config.json
+                /etc/dfm.config.json
+
+            See example of the config at dfm.config.example.json
+
+    EXAMPLES
+
+            dreamface update dfc
+                update and restart compiler
+
+            dreamface update dfx
+                update and restart dep and dev servers
+                restart compiler
+
+            dreamface update
+                update and restart dep, dev and compiler
+
+            dreamface restart
+                restart all: dep, dev and dfc
+                the same as:
+
+            dreamface restart dev dep dfc
+                and the same as:
+
+            dreamface restart dfx dfc
