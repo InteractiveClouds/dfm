@@ -21,6 +21,7 @@ if ( CMD === 'stop' ) {
 console.log('DIR : ' + __dirname);
 
     PM.start({
+        respawn : true,
         pidfile : CFG.daemon.pidfile,
         nmodule : 'server.js',
         cwd     : __dirname,

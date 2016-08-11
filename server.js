@@ -162,7 +162,9 @@ PM.on('totalCPULevelChanged', function (event, d) {
         headers: {'Content-Type': 'application/json; charset=utf-8'},
         body: JSON.stringify(d)
     })
-    .done();
+    .fail(function(error){
+        console.log(error);
+    });
 
     console.log((new Date).toISOString() + ' Total CPU level is changed to ' + d.level + '\t STAT : ' + JSON.stringify(d.stat));
 });
