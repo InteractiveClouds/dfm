@@ -3,13 +3,14 @@
         "code" : {
             "path" : "/Users/surr/d/p/dfx",
             "git"  : {
-                "branch" : "app-binding"
+                "branch" : "dev"
             }
         },
         "dev" : {
             "lock" : {
                 "path" : "/Users/surr/d/p/_dfx/run_dev.lock"
             },
+            "varpath" : "/Users/surr/d/p/_dfx/",
             "run" : {
                 "path" : "/Users/surr/d/p/_dfx/run_dev.js"
             }
@@ -18,6 +19,7 @@
             "lock" : {
                 "path" : "/Users/surr/d/p/_dfx/run_dep.lock"
             },
+            "varpath" : "/Users/surr/d/p/_dfx/",
             "run" : {
                 "path" : "/Users/surr/d/p/_dfx/run_dep.js"
             }
@@ -27,17 +29,31 @@
         "code" : {
             "path" : "/Users/surr/d/p/dfc",
             "git"  : {
-                "branch" : "master"
+                "branch" : "dev"
             }
         },
         "lock" : {
             "path" : "/Users/surr/d/p/_dfx/run_dfc.lock"
         },
+        "varpath" : "/Users/surr/d/p/_dfx/",
         "run" : {
             "path" : "/Users/surr/d/p/_dfx/run_dfc.js"
         }
     },
     "logs" : {
         "path" : "/Users/surr/d/p/_dfx/logs"
+    },
+    "daemon" : {
+        "host" : "0.0.0.0",
+        "port" : "3049",
+        "pidfile" : "/Users/surr/d/p/_dfx/dfm.pid",
+        "tmprun"  : "/Users/surr/d/p/_dfx/dfm_tmp_run/"
+    },
+    "stat" : {
+        "camtime" : "60",
+        "inspectEvery" : "5000",
+        "notifications" : {
+            "URL" : "http://loadbalancer:3050/notify"
+        }
     }
 }
