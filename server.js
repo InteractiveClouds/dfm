@@ -62,13 +62,6 @@ app.post('/start', function (req, res, next){
 
         const config = components[cname].config;
 
-        config.auth_conf_path = path.join(CFG.dfx.dev.varpath, '.auth.conf');
-
-        if ( cname === 'dep' ) {
-            config.deploy_path = path.join(CFG.dfx.dev.varpath, 'deploy');
-            config.fsdb_path   = path.join(CFG.dfx.dev.varpath, 'app_fsdb');
-        }
-
         const
             cnt = TMPLS[cname]({
                 MODULE_PATH : mapComponents[cname].modulePath,
