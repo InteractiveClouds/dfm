@@ -45,6 +45,15 @@ const
                 modulePath  : CFG.dfc.code.path,
                 logPrefix   : 'DFC.LOG_'
             }
+    },
+    startupProgress = {
+        isInProgress : false,
+        promises : {}
+    },
+    STARTUP_TIMEOUTS = {
+        dev : 20000,
+        dep : 20000,
+        dfc : 20000
     };
 
 app.use(bodyParser.json({limit:'50mb'}));
@@ -52,58 +61,110 @@ app.use(bodyParser.json({limit:'50mb'}));
 app.get('/ping', function (req, res, next){ res.end('pong') });
 
 app.post('/start', function (req, res, next){
+
+    if ( startupProgress.isInProgress ) res.status(409).json({error : 'starting is in progress'});
+
+    startupProgress.isInProgress = true;
+
     const
-        components = req.body.components,
-        cnames     = Object.keys(components),
-        tasks      = [],
-        report     = {};
+        notifyOnDoneURL = req.body.notify_on_components_started_URL,
+        components      = req.body.components,
+        cnames          = Object.keys(components),
+        report          = {};
 
-    cnames.forEach(function(cname){
+    if ( components.hasOwnProperty('dev') ) {
+        startupProgress.promises['dev'] = startComponent('dev', components['dev'].config)
+    }
 
-        const config = components[cname].config;
+    if ( components.hasOwnProperty('dep') ) {
+        startupProgress.promises['dep'] = startComponent('dep', components['dep'].config)
+    }
 
-        const
-            cnt = TMPLS[cname]({
-                MODULE_PATH : mapComponents[cname].modulePath,
-                CONFIG : JSON.stringify(config, null, 4)
-            }),
-            modulePath = path.join(CFG.daemon.tmprun, cname + '.js'),
-            logPrefix = mapComponents[cname].logPrefix,
-            delay = cname === 'dfc' ? 10000 : 0; // TODO remove the cratch after properly starting is done
+    if ( components.hasOwnProperty('dfc') ) {
+        startupProgress.promises['dfc'] = (
+                startupProgress.promises['dev'] || Q(1)
+            )
+            .then(function(){
+                return startComponent('dfc', components['dfc'].config);
+        });
+    }
 
-        FS.writeFileSync(modulePath, cnt);
+    res.status(202).json({status : 'starting is in progress'});
 
-        tasks.push(
-            Q.delay(delay).then(function(){ // TODO remove the cratch after properly starting is done
-                return PM.start({
-                    respawn : true,
-                    pidfile : mapComponents[cname].pidfilePath,
-                    nmodule : modulePath,
-                    cwd     : __dirname,
-                    logPrfx : logPrefix,
-                    logPath : CFG.logs.path,
-                    name    : cname,
-                    stat    : CFG.stat,
+    const promises = Object.keys(startupProgress.promises)
+            .map(function(cname){return startupProgress.promises[cname]});
+
+    Q.allSettled(promises)
+    .then(function(results){
+
+        var isFailed = false;
+
+        results.forEach(function (result) {
+            if (result.state !== "fulfilled") {
+                isFailed = true;
+                console.error(result.reason);
+            }
+        });
+
+        if ( notifyOnDoneURL ) {
+            const _status = isFailed ? 'failed' : 'done';
+
+                AR.post({
+                    url : notifyOnDoneURL,
+                    headers: {'Content-Type': 'application/json; charset=utf-8'},
+                    body: JSON.stringify({
+                        status : _status,
+                        report : report
+                    })
                 })
-                .then(
-                    function(){
-                        report[cname] = {
-                            status : 'started'
-                        }
-                    },
-                    function(error){
-                        report[cname] = {
-                            error : error
-                        };
-                        return Q.reject(error);
-                    }
-                )
-            })
-        );
-    });
-
-    Q.all(tasks).then(function(){ res.json(report) }).done();
+                .then(function(){
+                    console.log('notifications sent', report);
+                })
+                .fail(function(error){
+                    console.log('could not notify after start. error : ', error);
+                });
+        }
+        startupProgress.isInProgress = false;
+        delete startupProgress.promises;
+        startupProgress.promises = {};
+    })
+    .done();
 });
+
+function startComponent ( cname, config ) {
+
+    config.notify_on_start = {
+        url : 'http://localhost' + ':' + CFG.daemon.port + '/startup/notification/',
+        id  : cname
+    };
+
+    config.isup = {
+        waitForNotification : true,
+        timeout : STARTUP_TIMEOUTS[cname]
+    };
+    
+    const
+        cnt = TMPLS[cname]({
+            MODULE_PATH : mapComponents[cname].modulePath,
+            CONFIG : JSON.stringify(config, null, 4)
+        }),
+        modulePath = path.join(CFG.daemon.tmprun, cname + '.js'),
+        logPrefix = mapComponents[cname].logPrefix;
+    
+    FS.writeFileSync(modulePath, cnt);
+
+    return PM.start({
+        respawn : true,
+        pidfile : mapComponents[cname].pidfilePath,
+        nmodule : modulePath,
+        cwd     : __dirname,
+        logPrfx : logPrefix,
+        logPath : CFG.logs.path,
+        name    : cname,
+        stat    : CFG.stat,
+        isup    : config.isup
+    })
+}
 
 app.post('/stop', function (req, res, next){
 
@@ -143,6 +204,12 @@ app.get('/health', function (req, res, next){
 
 app.get('/settings', function (req, res, next){
     res.json(CFG);
+});
+
+app.get('/startup/notification/', function (req, res, next){
+    console.log('GOT NOTIFICATION : ', req.query);
+    PM.upNotification({name : req.query.notifyid})
+    res.end();
 });
     
 http.createServer(app).listen(CFG.daemon.port, CFG.daemon.host);

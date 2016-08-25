@@ -17,16 +17,16 @@ if ( CMD === 'stop' ) {
     .done();
 
 } else if ( CMD === 'start' ) {
-
-console.log('DIR : ' + __dirname);
-
     PM.start({
         respawn : true,
         pidfile : CFG.daemon.pidfile,
         nmodule : 'server.js',
         cwd     : __dirname,
         logPrfx : 'DFM.LOG_',
-        logPath : CFG.logs.path
+        logPath : CFG.logs.path,
+        isup : {
+            timeout : 5000
+        }
     })
     .done();
 }
