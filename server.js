@@ -67,10 +67,9 @@ app.post('/start', function (req, res, next){
     startupProgress.isInProgress = true;
 
     const
-        notifyOnDoneURL = req.body.notify_on_components_started_URL,
-        components      = req.body.components,
-        cnames          = Object.keys(components),
-        report          = {};
+        components = req.body.components,
+        cnames     = Object.keys(components),
+        report     = {};
 
     if ( components.hasOwnProperty('dev') ) {
         startupProgress.promises['dev'] = startComponent('dev', components['dev'].config)
@@ -106,13 +105,14 @@ app.post('/start', function (req, res, next){
             }
         });
 
-        if ( notifyOnDoneURL ) {
+        if ( CFG.stat.notifications.URL ) {
             const _status = isFailed ? 'failed' : 'done';
 
                 AR.post({
-                    url : notifyOnDoneURL,
+                    url : CFG.stat.notifications.URL,
                     headers: {'Content-Type': 'application/json; charset=utf-8'},
                     body: JSON.stringify({
+                        type   : 'CUP',
                         status : _status,
                         report : report
                     })
@@ -212,10 +212,30 @@ app.get('/startup/notification/', function (req, res, next){
     res.end();
 });
     
-http.createServer(app).listen(CFG.daemon.port, CFG.daemon.host);
+http.createServer(app).listen(CFG.daemon.port, CFG.daemon.host, function(){
+
+    if ( !CFG.stat.notifications.URL ) return;
+
+    AR.post({
+        url: CFG.stat.notifications.URL,
+        headers: {'Content-Type': 'application/json; charset=utf-8'},
+        body: JSON.stringify({
+            type : 'DFMUP'
+        })
+    })
+    .fail(function(error){
+        console.log(error);
+    });
+});
 
 
 PM.on('totalCPULevelChanged', function (event, d) {
+
+    d.type = 'CPU';
+
+    console.log((new Date).toISOString() + ' Total CPU level is changed to ' + d.level + '\t STAT : ' + JSON.stringify(d.stat));
+
+    if ( !CFG.stat.notifications.URL ) return;
 
     AR.post({
         url: CFG.stat.notifications.URL,
@@ -225,6 +245,4 @@ PM.on('totalCPULevelChanged', function (event, d) {
     .fail(function(error){
         console.log(error);
     });
-
-    console.log((new Date).toISOString() + ' Total CPU level is changed to ' + d.level + '\t STAT : ' + JSON.stringify(d.stat));
 });
