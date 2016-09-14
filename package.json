@@ -9,6 +9,7 @@
   "dependencies": {
     "body-parser": "*",
     "express": "*",
+    "log4js": "^0.6.38",
     "q": "^1.4.1",
     "q-io": "^1.13.2"
   }
