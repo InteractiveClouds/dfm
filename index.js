@@ -28,7 +28,8 @@ require('./lib/runTasks')({
         updateDFX  : require('./lib/tasks/updateDFX'),
         restartDEV : require('./lib/tasks/restartDEV'),
         restartDEP : require('./lib/tasks/restartDEP'),
-        restartDFC : require('./lib/tasks/restartDFC')
+        restartDFC : require('./lib/tasks/restartDFC'),
+        installDFX : require('./lib/tasks/installDFX')
     }
 })
 .done(); // TODO
