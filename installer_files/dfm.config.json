@@ -1,0 +1,43 @@
+{
+  "dfx" : {
+    "code" : {
+      "path" : "/var/lib/dreamface/dfx",
+      "git"  : {
+        "branch" : "dev"
+      }
+    },
+    "dev" : {
+      "lock" : {
+        "path" : "/var/lib/dreamface/dfx/dev.lock"
+      },
+      "run" : {
+        "path" : "/var/lib/dreamface/dfx/run_dev.js"
+      }
+    },
+    "dep" : {
+      "lock" : {
+        "path" : "/var/lib/dreamface/dfx/dep.lock"
+      },
+      "run" : {
+        "path" : "/var/lib/dreamface/dfx/run_dep.js"
+      }
+    }
+  },
+  "dfc" : {
+    "code" : {
+      "path" : "/var/lib/dreamface/dfc",
+      "git"  : {
+        "branch" : "dev"
+      }
+    },
+    "lock" : {
+      "path" : "/var/lib/dreamface/dfc/dfc.lock"
+    },
+    "run" : {
+      "path" : "/var/lib/dreamface/dfc/run_dfc.js"
+    }
+  },
+  "logs" : {
+    "path" : "/var/lib/dreamface/logs"
+  }
+}
