@@ -36,6 +36,7 @@ setTimeout(function(){
     dfc.init({
         target_dir : '/var/lib/dreamface/res_folders/cmpTasks',
         tmp_dir :'/var/lib/dreamface/res_folders/cmpTmp',
+        server_host : '0.0.0.0',
         dfx_servers : [
             {
                 name : 'dfx',
