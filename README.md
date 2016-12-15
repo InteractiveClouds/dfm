@@ -15,6 +15,6 @@ collections from MongoDB to avoid such situations)
 4) git clone https://github.com/InteractiveClouds/dfm.git
 5) cd dfm && npm install
 6) ln -s /var/lib/dreamface/dfm/index.js /usr/local/bin/dreamface
-7) dreamface install
+7) dreamface install 50.50.50.50 (where 50.50.50.50 is yours external server IP. If you not specify current parameter '127.0.0.1' will use but default)
 8) dreamface update
 </pre>
