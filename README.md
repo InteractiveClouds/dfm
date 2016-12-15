@@ -1,17 +1,20 @@
 # DreamFace Manager
 
-Manager for DreamFace's development, deployment and compiler servers, that simplifies restarting and updating code of the servers.
+Manager for DreamFace's development, deployment and compiler servers, that simplifies installing, restarting and updating code of the servers.
+See `HELP.txt` for details.
 
-Install dreamface steps:
+Dreamface installation steps:
+
+Before installation be sure if you haven't running dreamface process and you haven't already installed dreamface (you can execute a command: 'killall node' and remove 'dreamface_sysdb'
+collections from MongoDB to avoid such situations)
+
 <pre>
 1) mkdir /var/lib/dreamface or sudo mkdir /var/lib/dreamface
-2) sudo chown "your_user_name": /var/lib/dreamface (for example sudo chown john: /var/lib/dreamface)
+2) sudo chown <your_user_name>: myfolder
 3) cd /var/lib/dreamface
 4) git clone https://github.com/InteractiveClouds/dfm.git
-5) cd dfm
-6) npm install
-7) ln -s /var/lib/dreamface/dfm/index.js /usr/local/bin/dreamface
-8) dreamface install
-9) dreamface update
+5) cd dfm && npm install
+6) ln -s /var/lib/dreamface/dfm/index.js /usr/local/bin/dreamface
+7) dreamface install
+8) dreamface update
 </pre>
-See `HELP.txt` for details.

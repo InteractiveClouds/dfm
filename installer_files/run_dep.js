@@ -44,9 +44,9 @@ setTimeout(function(){
             server_host: '0.0.0.0',
             server_port: 3300,
 
-            external_server_host: '127.0.0.1',
+            external_server_host: 'IP',
             external_server_port:  3000,
-            public_dir_path: '/var/lib/dreamface/dev/public',
+            public_dir_path: '/var/lib/dreamface/dfx/public',
 
             enableGracefulShutdown : false
 

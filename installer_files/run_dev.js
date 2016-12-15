@@ -38,9 +38,9 @@ setTimeout(function(){
         studio_version: 3,
         edition: 'development',
         storage: 'mongod',
-        deployment_server_host: '127.0.0.1',
+        deployment_server_host: 'IP',
         deployment_server_port: 3300,
-        external_server_host: '127.0.0.1',
+        external_server_host: 'IP',
         external_server_port:  3000,
         server_host: '0.0.0.0',
         server_port: 3000,
@@ -49,7 +49,7 @@ setTimeout(function(){
         tempDirForTemplates : '/var/lib/dreamface/res_folders/devTemp',
         tempDir : '/var/lib/dreamface/res_folders/devTmp',
         app_build_path: '/var/lib/dreamface/res_folders/app_builds',
-        public_dir_path: '/var/lib/dreamface/dev/public',
+        public_dir_path: '/var/lib/dreamface/dfx/public',
         docker_daemon : {
             useDefaultSettings: true
         },

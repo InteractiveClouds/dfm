@@ -41,7 +41,7 @@ setTimeout(function(){
             {
                 name : 'dfx',
                 cfg  : {
-                    address : 'http://127.0.0.1:3000/',
+                    address : 'http://IP:3000/',
                     auth_conf_path : '/var/lib/dreamface/res_folders/.auth.conf'
                 }
             }
