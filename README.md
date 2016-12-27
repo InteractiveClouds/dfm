@@ -10,7 +10,7 @@ collections from MongoDB to avoid such situations)
 
 <pre>
 1) mkdir /var/lib/dreamface or sudo mkdir /var/lib/dreamface
-2) sudo chown "your_user_name": myfolder
+2) sudo chown "your_user_name": /var/lib/dreamface
 3) cd /var/lib/dreamface
 4) git clone https://github.com/InteractiveClouds/dfm.git
 5) cd dfm && npm install
