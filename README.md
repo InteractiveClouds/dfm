@@ -9,12 +9,11 @@ Requirements:
 1) Node >= 6.0.0
 2) MongoDB >= 3.0.0
 3) Npm >= 3.8.6
-4) Grunt-cli >= 1.2.0
-5) Grunt >= 0.4.5
-6) Redis >= 3.2.1
-7) Git >= 1.9.1 (<b>Important!</b> Git should be accessible via ssh without authentication)
+4) Grunt >= 0.4.5
+5) Redis >= 3.2.1
+6) Git >= 1.9.1 (<b>Important!</b> Git should be accessible via ssh without authentication)
 </pre>
-Also be sure if you haven't running dreamface process and you haven't already installed dreamface (you can execute a command: 'killall node' and remove 'dreamface_sysdb'collections from MongoDB to avoid such situations)
+Also be sure if you haven't running dreamface process and you haven't already installed dreamface (you can execute a command: 'killall node' and remove 'dreamface_sysdb' collections from MongoDB to avoid such situations)
 <pre>
 1) mkdir /var/lib/dreamface or sudo mkdir /var/lib/dreamface
 2) sudo chown "your_user_name": /var/lib/dreamface
